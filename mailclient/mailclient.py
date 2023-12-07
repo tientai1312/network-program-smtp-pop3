@@ -1,118 +1,182 @@
-﻿import socket
-import os
+from msilib.schema import MIME
+import socket
 import base64
-from datetime import date, datetime
+import os
+import email.utils
+import mimetypes
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.application import MIMEApplication
 
 def menu():
     print("Vui lòng chọn menu: ")
-    print("1. Để gửi email")
-    print("2. Thoát")
+    print("1. Để gửi email ")
+    print("2. Để xem danh sách các email đã nhận ")
+    print("3. Thoát ")
     
-def send_email():
-    # Thông tin tài khoản email
-    sender_email = input("Nhập địa chỉ email của bạn: ")
-    password = input("Nhập mật khẩu email của bạn: ")
+def send_email(sender_email, to_list , subject, body, attachment_paths, cc_list, bcc_list, smtp_server, smtp_port, MAXSIZE_MB):
+    # Tạo đối tượng MIMEMultipart
+    message = MIMEMultipart()
+    
+    # Thêm ngày giờ và Message ID
+    message['Message-ID'] = email.utils.make_msgid()
+    message['Date'] = email.utils.formatdate(localtime=True)
+    
+    # Thêm danh sách TO vào email nếu có
+    if to_list != ['']:
+        to = ', '.join(to_list)
+        message['TO'] = to
+        
+    # Thêm danh sách CC vào email nếu có
+    if cc_list != ['']:
+        cc = ', '.join(cc_list)
+        message['CC'] = cc
+        
+    
+    # Thêm danh sách BCC vào email nếu có
+    if bcc_list != ['']:
+        bcc = ', '.join(bcc_list)
+        message['BCC'] = bcc
 
-    # Thông tin SMTP server (ví dụ: Gmail)
-    smtp_server = "127.0.0.1"
-    smtp_port = 2225
+    # Thêm nội dung email
+    message['From'] = sender_email
+    message['Subject'] = subject
+    
+    message.attach(MIMEText(body, 'plain'))
+  
 
-    # Kết nối tới SMTP server
+    # Thêm các file đính kèm
+    if attachment_paths:
+        for attachment_path in attachment_paths:
+            attachment_size = os.path.getsize(attachment_path) / (1024 * 1024)  # Kích thước file đính kèm tính bằng MB
+            if attachment_size > MAXSIZE_MB:
+                print(f"{os.path.basename(attachment_path)} vượt quá giới hạn dung lượng.")
+                continue
+
+            with open(attachment_path, 'rb') as attachment_file:
+                mime_type, _ = mimetypes.guess_type(attachment_path)
+                text_mime_type = mime_type.split('/')
+                subtype = text_mime_type[1]
+                attachment = MIMEApplication(attachment_file.read(), f'{subtype}; name ="{os.path.basename(attachment_path)}"')
+                attachment.add_header('Content-Disposition', f'attachment; filename="{os.path.basename(attachment_path)}"')
+                message.attach(attachment)
+
+    # Xây dựng nội dung MIME
+    mime_content = message.as_string()
+
+    # Kết nối đến server SMTP
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
         client_socket.connect((smtp_server, smtp_port))
 
-        # Gửi lệnh EHLO để bắt đầu phiên kết nối
-        send_command(client_socket, "EHLO [127.0.0.1]")
+        # Nhận và in lời chào từ server
+        response = client_socket.recv(1024)
+        print(response.decode())
 
-        # Nhập thông tin người nhận
-        to_emails = input("TO: ").split(',')
-        cc_emails = input("CC: ").split(',')
-        bcc_emails = input("BCC: ").split(',')
+        # Gửi lệnh EHLO để bắt đầu phiên làm việc
+        client_socket.sendall('EHLO [127.0.0.1]\r\n'.encode())
+        response = client_socket.recv(1024)
+        print(response.decode())
+
+        # # Bắt đầu quá trình xác thực
+        # client_socket.sendall('AUTH LOGIN\r\n'.encode())
+        # response = client_socket.recv(1024)
+        # print(response.decode())
+
+        # # Gửi tên người dùng đã mã hóa base64
+        # client_socket.sendall(base64.b64encode(username.encode()) + b'\r\n')
+        # response = client_socket.recv(1024)
+        # print(response.decode())
+
+        # # Gửi mật khẩu đã mã hóa base64
+        # client_socket.sendall(base64.b64encode(password.encode()) + b'\r\n')
+        # response = client_socket.recv(1024)
+        # print(response.decode())
 
         # Gửi lệnh MAIL FROM
-        send_command(client_socket, f"MAIL FROM: <{sender_email}>")
+        client_socket.sendall(f'MAIL FROM: <{sender_email}>\r\n'.encode())
+        response = client_socket.recv(1024)
+        print(response.decode())
 
-        # Gửi lệnh RCPT TO cho người nhận
-        for to_email in to_emails:
-            send_command(client_socket, f"RCPT TO: <{to_email}>")
-
-        # Gửi lệnh RCPT TO cho CC
-        for cc_email in cc_emails:
-            send_command(client_socket, f"RCPT TO: <{cc_email}>")
-
-        # Gửi lệnh RCPT TO cho BCC
-        for bcc_email in bcc_emails:
-            send_command(client_socket, f"RCPT TO: <{bcc_email}>")
-
-        # Gửi lệnh DATA để bắt đầu nhập nội dung email
-        send_command(client_socket, "DATA") 
-
-        #Nhập nội dung email từ bàn phím
-        print("Content: ")
+        # Gửi lệnh RCPT TO:
+        if to_list != ['']:
+            for tos in to_list:
+                client_socket.sendall(f'RCPT TO: <{tos}>\r\n'.encode())
+                response = client_socket.recv(1024)
+                print(response.decode())
         
-        content_lines = []
-        while True:
-            line = input()
-            if not line: 
-                break
-            content_lines.append(line)
-        body = "\r\n".join(content_lines)
-        send_command(client_socket, body)
+        if cc_list != ['']:
+            for ccs in cc_list:
+                client_socket.sendall(f'RCPT TO: <{ccs}>\r\n'.encode())
+                response = client_socket.recv(1024)
+                print(response.decode())
         
-        name_attachments = input("Input link attachment: ").split(',')
-        
-        attachments = get_attachment(name_attachments)
-           
-        msg += f"\n\n{attachments}"
-        client_socket.send(attachments)
-        
-        # Kết thúc nội dung email
-        send_command(client_socket, ".")
-SUPPORTED_FORMATS = {
-    "txt": "text/plain",
-    "doc": "application/msword",
-    "docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    "pdf": "application/pdf",
-    "jpg": "image/jpeg",
-    "png": "image/png",
-    "xls": "application/vnd.ms-excel",
-    "xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    "zip": "application/zip"
-}
+        if bcc_list != ['']:
+            for bccs in bcc_list:
+                 client_socket.sendall(f'RCPT TO: <{bccs}>\r\n'.encode())
+                 response = client_socket.recv(1024)
+                 print(response.decode())
 
-def get_attachment(filename):
-    name = os.path.basename(filename)
-    ext = os.path.splitext(name)[1].lower().strip(".")
-    
-    if ext not in SUPPORTED_FORMATS:
-        return
-        
-    mime_type = SUPPORTED_FORMATS[ext]
-    
-    with open(filename, "rb") as f:
-        data = f.read()
-        
-    b64 = base64.b64encode(data).decode("utf-8")
-    
-    part = f"Content-Type: {mime_type}; name=\"{name}\"\n"
-    part += f"Content-Transfer-Encoding: base64\n" 
-    part += f"Content-Disposition: attachment; filename=\"{name}\"\n\n{b64}"
-    
-    return part
+        # Gửi lệnh DATA để bắt đầu truyền nội dung email
+        client_socket.sendall('DATA\r\n'.encode())
+        response = client_socket.recv(1024)
+        print(response.decode())
 
-def send_command(socket, command):
-    socket.sendall(f"{command}\r\n".encode())
-    response = socket.recv(4096).decode()
-    print(response)
-    
+        # Gửi nội dung email
+        client_socket.sendall(mime_content.encode())
+        client_socket.sendall('\r\n.\r\n'.encode())
+        response = client_socket.recv(1024)
+        print(response.decode())
+
+        # Đóng kết nối
+        client_socket.sendall('QUIT\r\n'.encode())
+        response = client_socket.recv(1024)
+        print(response.decode())
+
+    print(f'Gửi email thành công!\r\n')
+
 def main():
     while True:
         menu()
         choice = int(input("Nhập lựa chọn: "))
         if choice == 1:
-            send_email()
+            print("Đây là thông tin soạn email: (nếu không điền vui lòng nhấn enter để bỏ qua)")
+            
+            # Thông tin tài khoản email
+            sender_email = input("Nhập địa chỉ email của bạn: ")
+
+            # Thông tin SMTP server (ví dụ: Gmail)
+            smtp_server = "127.0.0.1"
+            smtp_port = 2225
+            
+            # Nhập thông tin người nhận
+            to_list = input("TO: ").split(',')
+            cc_list = input("CC: ").split(',')
+            bcc_list = input("BCC: ").split(',')
+
+            subject = input("Subject: ")
+            print("Content: ")
+        
+            content_lines = []
+            while True:
+                line = input()
+                if not line: 
+                    break
+                content_lines.append(line)
+            body = "\r\n".join(content_lines)
+            
+            choice1 = int(input("Có gửi kèm file (1. có, 2. không): "))
+            attachment_paths = []
+            if choice1 == 1:
+                temp = int(input("Số lượng file muốn gửi: "))
+                for i in range(temp):
+                    path = input("Cho biết đường dẫn file thứ {}: ".format(i + 1))
+                    attachment_paths.append(path)
+                    
+            MAXSIZE_MB = 3
+            
+            send_email(sender_email, to_list , subject, body, attachment_paths, cc_list, bcc_list, smtp_server, smtp_port, MAXSIZE_MB)
             print("Gửi email thành công!")
-        elif choice == 2:   
+        elif choice == 3:   
               print("Hẹn gặp lại!")
               exit()
             
