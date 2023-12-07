@@ -1,4 +1,3 @@
-from msilib.schema import MIME
 import socket
 import base64
 import os
@@ -13,8 +12,8 @@ def menu():
     print("1. Để gửi email ")
     print("2. Để xem danh sách các email đã nhận ")
     print("3. Thoát ")
-    
-def send_email(sender_email, to_list , subject, body, attachment_paths, cc_list, bcc_list, smtp_server, smtp_port, MAXSIZE_MB):
+     
+def send_email(sender_email,  smtp_server, smtp_port, to_list , cc_list, bcc_list, subject, body, attachment_paths, MAXSIZE_MB):
     # Tạo đối tượng MIMEMultipart
     message = MIMEMultipart()
     
@@ -144,7 +143,7 @@ def main():
             # Thông tin tài khoản email
             sender_email = input("Nhập địa chỉ email của bạn: ")
 
-            # Thông tin SMTP server (ví dụ: Gmail)
+            # Thông tin SMTP server 
             smtp_server = "127.0.0.1"
             smtp_port = 2225
             
@@ -154,15 +153,15 @@ def main():
             bcc_list = input("BCC: ").split(',')
 
             subject = input("Subject: ")
+            
             print("Content: ")
-        
             content_lines = []
             while True:
                 line = input()
                 if not line: 
                     break
                 content_lines.append(line)
-            body = "\r\n".join(content_lines)
+            body = "\r\n".join(content_lines) + "\r\n"
             
             choice1 = int(input("Có gửi kèm file (1. có, 2. không): "))
             attachment_paths = []
@@ -174,10 +173,10 @@ def main():
                     
             MAXSIZE_MB = 3
             
-            send_email(sender_email, to_list , subject, body, attachment_paths, cc_list, bcc_list, smtp_server, smtp_port, MAXSIZE_MB)
-            print("Gửi email thành công!")
+            send_email(sender_email, smtp_server, smtp_port, to_list , cc_list, bcc_list, subject, body, attachment_paths, MAXSIZE_MB)
+            print("Gửi email thành công!\r\n")
         elif choice == 3:   
-              print("Hẹn gặp lại!")
+              print("Hẹn gặp lại!\r\n")
               exit()
             
 
