@@ -6,12 +6,14 @@ import mimetypes
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
+from Function_3_4 import ViewEmail, MoveEmail
 
 def menu():
     print("Vui lòng chọn menu: ")
     print("1. Để gửi email ")
     print("2. Để xem danh sách các email đã nhận ")
-    print("3. Thoát ")
+    print("3. Di Chuyển email.")
+    print("4. Thoát ")
      
 def send_email(sender_email,  smtp_server, smtp_port, to_list , cc_list, bcc_list, subject, body, attachment_paths, MAXSIZE_MB):
     # Tạo đối tượng MIMEMultipart
@@ -175,9 +177,13 @@ def main():
             
             send_email(sender_email, smtp_server, smtp_port, to_list , cc_list, bcc_list, subject, body, attachment_paths, MAXSIZE_MB)
             print("Gửi email thành công!\r\n")
+        elif choice == 2:
+            ViewEmail()
         elif choice == 3:   
-              print("Hẹn gặp lại!\r\n")
-              exit()
+            MoveEmail()
+        else:
+            print("Hẹn gặp lại!\r\n")
+            exit()
             
 
 if __name__ == '__main__':
