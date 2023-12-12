@@ -111,7 +111,7 @@ def FilterText(Text):
     Spam_config = config_obj["SPAM"]
 
     List_KeyWords_Spam = Spam_config["KeyWords"]
-    List_KeyWords_Work = Work_config["Subject"] + ", " + Work_config["Recruitment"] + ", " + Work_config["Job_Positions"] + ", " + Work_config["Job_Requirements"] + ", " + Work_config["Job_Benefits"]
+    List_KeyWords_Work = Work_config["From"] + Work_config["Subject"] + ", " + Work_config["Recruitment"] + ", " + Work_config["Job_Positions"] + ", " + Work_config["Job_Requirements"] + ", " + Work_config["Job_Benefits"]
     List_KeyWords_Spam = List_KeyWords_Spam.split(",")
     List_KeyWords_Work = List_KeyWords_Work.split(",")
 
