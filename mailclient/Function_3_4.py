@@ -26,7 +26,7 @@ def FilterEmail(Email_File):
 
 
 # Thong tin cua email can doc: from, subject, content. 
-def Read_Email(Email):
+def Read_Email(Email, config_User):
     Email_path = find_file(Email)
     msg = read_eml_file(Email_path)
 
@@ -42,7 +42,7 @@ def Read_Email(Email):
         print("Có file đính kèm.\r\n")
         isDown = int(input("Nhập 1 để tải về (không tải về vui lòng nhập 0): "))
         if isDown == 1:
-            DownLoad_folder = find_folder("File_attachment")
+            DownLoad_folder = find_folder(config_User["File_attachment"])
             try:
                 if os.path.exists(Email_path) and os.path.exists(DownLoad_folder):
                     download_attachments(Email_path, DownLoad_folder)    
@@ -54,8 +54,14 @@ def Read_Email(Email):
 
 
 def ViewEmail():
+    config_obj = configparser.ConfigParser()
+    Config_path = find_file("Config.ini")
+    config_obj.read(Config_path)
+    
+    config_User = config_obj["USER"]
+
     print("Danh sách folder: ")
-    List_foder = PrintList("mailbox")
+    List_foder = PrintList(config_User["folder_email"])
     choice_folder = int(input("Nhập folder (nhập theo số): "))
     if List_foder[choice_folder] == "Thoát.":
         return
@@ -65,12 +71,19 @@ def ViewEmail():
         choice_email = int(input("Nhập email bạn muốn xem (nhập theo số): "))
         if(List_email[choice_email] == "Thoát."):
             return
-        Read_Email(List_email[choice_email])
+        Read_Email(List_email[choice_email], config_User)
+
 
 
 def MoveEmail():
+    config_obj = configparser.ConfigParser()
+    Config_path = find_file("Config.ini")
+    config_obj.read(Config_path)
+    
+    config_User = config_obj["USER"]
+
     print("Danh sách folder: ")
-    List_foder = PrintList("mailbox")
+    List_foder = PrintList(config_User["folder_email"])
     choice_folder = int(input("Nhập folder chứa email muốn chuyển (nhập theo số): "))
     if List_foder[choice_folder] == "Thoát.":
         return
