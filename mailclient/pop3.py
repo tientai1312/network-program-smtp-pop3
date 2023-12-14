@@ -28,6 +28,8 @@ def save_email_eml(email_data, save_path, uidl):
     # Lưu email vào file .msg
     with open(email_path, "wb") as email_file:
         email_file.write(email_data)
+    
+    FilterEmail(email_filename)
  
 def save_status_to_json(status, save_path):
     # Lưu trạng thái vào file JSON

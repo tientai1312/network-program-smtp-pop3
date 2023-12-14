@@ -184,7 +184,7 @@ def main():
         # tải mail 
         elif choice == 4: 
             config_obj = configparser.ConfigParser()
-            config_file = "D:/SMTPPOP3/mailclient/mailclient/Config.ini"
+            config_file = find_file("Config.ini")
             config_obj.read(config_file, encoding = "utf-8")
 
             user_config = config_obj['USER']
@@ -192,7 +192,7 @@ def main():
             user_pass = user_config['Password'].strip('"\'')
             pop3_server = user_config['Mailserver'].strip('"\'')
             pop3_port = int(user_config['POP3'].strip('"\''))
-            save_msg_path = f"D:/SMTPPOP3/mailclient/mailclient/msgdownload"
+            save_msg_path = find_folder(user_config['folder_email'])
             os.makedirs(save_msg_path, exist_ok=True)
             download_msg(user_name, user_pass, pop3_server, pop3_port, save_msg_path)
         elif choice == 5:   

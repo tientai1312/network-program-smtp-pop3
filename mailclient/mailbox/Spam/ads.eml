@@ -1,0 +1,188 @@
+Received: from MW4PR01MB6098.prod.exchangelabs.com (2603:10b6:303:7b::20) by
+ PH0PR01MB7925.prod.exchangelabs.com with HTTPS; Fri, 8 Dec 2023 10:28:04
+ +0000
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mso.hcmus.edu.vn;
+Received: from DS7PR01MB7638.prod.exchangelabs.com (2603:10b6:8:75::19) by
+ MW4PR01MB6098.prod.exchangelabs.com (2603:10b6:303:7b::20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7068.27; Fri, 8 Dec 2023 10:28:02 +0000
+Received: from DS7PR01MB7638.prod.exchangelabs.com
+ ([fe80::488a:7cb3:8fc3:208d]) by DS7PR01MB7638.prod.exchangelabs.com
+ ([fe80::488a:7cb3:8fc3:208d%5]) with mapi id 15.20.7068.028; Fri, 8 Dec 2023
+ 10:28:01 +0000
+Date: Fri, 8 Dec 2023 17:27:57 +0700
+To: "=?utf-8?B?Tmd1eeG7hW4gSOG6o2kgUXXDom4=?=" <22120292@student.hcmus.edu.vn>
+From: "=?utf-8?B?TMOqIEjDoCBNaW5oIChxdWEgV2Vic2l0ZSBtw7RuIGjhu41jIC0gZml0QGg=?=
+ =?utf-8?B?Y211cyk=?=" <moodlefit@mso.hcmus.edu.vn>
+Reply-To: "=?utf-8?B?WGluIMSR4burbmcgdHLhuqMgbOG7nWkgduG7gSDEkeG7i2EgY2jhu4kgZw==?=
+ =?utf-8?B?4butaSB0aMawIG7DoHk=?=" <moodlefit@mso.hcmus.edu.vn>
+Subject: =?utf-8?B?Q1NDMTAwMDhfQ1EyMzI0SEsxXzIyQ1RUNTogVGjDtG5nIGLDoW8gbmdo4buJ?=
+ =?utf-8?B?IGjhu41jIG5nw6B5IDkvMTIvMjAyMw==?=
+Message-ID: <37de52f611811705a66b96d535348232e79b005b7a5ff71ed8b63f6c1ca30479@courses.fit.hcmus.edu.vn>
+X-Mailer: PHPMailer 6.2.0 (https://github.com/PHPMailer/PHPMailer)
+List-Id: =?utf-8?B?IkPDoWMgdGjDtG5nIGLDoW8iIDxtb29kbGVmb3J1bTU4NDZAY291cnNlcy4=?=
+ =?utf-8?B?Zml0LmhjbXVzLmVkdS52bj4=?=
+List-Help: https://courses.fit.hcmus.edu.vn/mod/forum/view.php?f=5846
+X-Course-Id: 3790
+X-Course-Name: =?utf-8?B?TeG6oW5nIG3DoXkgdMOtbmggLSAyMkNUVDU=?=
+Precedence: Bulk
+X-Auto-Response-Suppress: All
+Auto-Submitted: auto-generated
+List-Unsubscribe: <>
+Thread-Topic: =?utf-8?B?Q1NDMTAwMDhfQ1EyMzI0SEsxXzIyQ1RUNTogVGjDtG5nIGLDoW8gbmdo4buJ?=
+ =?utf-8?B?IGjhu41jIG5nw6B5IDkvMTIvMjAyMw==?=
+Thread-Index: 37de52f611811705a66b96d53534
+Content-Type: multipart/alternative;
+ boundary="b1_Rcsbstn7PtY9KutOGqjMqW1RPjCZCypcdAENrqSNJc"
+X-MS-Exchange-Organization-ExpirationStartTime: 08 Dec 2023 10:28:01.7440
+ (UTC)
+X-MS-Exchange-Organization-ExpirationStartTimeReason: OriginalSubmit
+X-MS-Exchange-Organization-ExpirationInterval: 1:00:00:00.0000000
+X-MS-Exchange-Organization-ExpirationIntervalReason: OriginalSubmit
+X-MS-Exchange-Organization-Network-Message-Id:
+ 0a6070bb-5980-4731-98bf-08dbf7d85b28
+X-MS-Exchange-Organization-AuthSource: DS7PR01MB7638.prod.exchangelabs.com
+X-MS-Exchange-Organization-AuthAs: Internal
+X-MS-Exchange-Organization-AuthMechanism: 06
+X-ClientProxiedBy: SI2PR02CA0054.apcprd02.prod.outlook.com
+ (2603:1096:4:196::13) To DS7PR01MB7638.prod.exchangelabs.com
+ (2603:10b6:8:75::19)
+X-MS-Exchange-Organization-MessageDirectionality: Originating
+Return-Path: moodlefit@mso.hcmus.edu.vn
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic:
+ DS7PR01MB7638:EE_|MW4PR01MB6098:EE_|PH0PR01MB7925:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0a6070bb-5980-4731-98bf-08dbf7d85b28
+X-MS-Exchange-Organization-SCL: 1
+X-Microsoft-Antispam: BCL:0;
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:vi;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR01MB7638.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:;DIR:INT;
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a6070bb-5980-4731-98bf-08dbf7d85b28
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR01MB7638.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2023 10:28:01.8579
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 40127cd4-45f3-49a3-b05d-315a43a9f033
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6lIVjcMR2Hvo2m66jt6knQWvxVGwmdjrhkeYpxlELIR/doLp2qLT9wDAXa7vy/BMENwJ1HDsBOXNStO+NdL5MxHB33Drk/oixg9RIqVkjhc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR01MB6098
+X-MS-Exchange-Transport-EndToEndLatency: 00:00:02.4154956
+X-MS-Exchange-Processed-By-BccFoldering: 15.20.7068.028
+X-Microsoft-Antispam-Mailbox-Delivery:
+	ucf:0;jmr:0;auth:0;dest:I;ENG:(910001)(944506478)(944626604)(920097)(425001)(930097)(140003);
+X-Microsoft-Antispam-Message-Info:
+	92AoGA/GAXihTbIp/cuI3EkfqJrgqmnP2HPPhGoWdLbgAS9GwSUHftQc0GDrHbVxERWZPkxgHv+cSR2DRwGe8rjEmm6LZptu8rVvCEvSrRvOqBytrVkwNyU+vvrhR8BCOeLJQcVDMoSNE9CWwL4mm76R5uYqjNVH60AK5TlXYgpikTPIGgTHEajIZ1wH1WNmF5ywRO5uglbPwG958htKYCWXEmE80vnOTTx2Gj4hwBiVE++2K3cm8Q8Ws3pnVja8VCzE9brg76ThEUwA8oiTdXRxnvddgYNHj9EDqahj/7x0vYtHTRwJshAAJWzTRT51IxVpNDrfNyDSWRNPKRS1xDDVv5ZSYxhXX1fAymUoCrej0HCK41i0cmt3IzClSht2KJi8cDEK3yQUD4hIfHCPpPCeeakfn833/MHYIwBoGD/FwHiwazPyQ8TQ6GfcAPByNcvEW2jOGBtlLaFAJTXYg4HA6n/Rt+eLRyNphiPHpN/gCrH2XwY9+RrGxi3E0gCdScwSkihxj4DOMKZXsVT+vl3ih4nhComebohHJPKrIEO3qxW3xfewpeigKAzD5Qm0HugI9Nc1moR7qPG9ovI4jW0z45CAyiVKAjznAl7DgLzFlVuOIT2+uNXeu0yTjg1q1f7RNWWyL3cK2E4E0jIlOw0G3W1hKYmjOtS/nxYtCh4ZIpURQC787s7SuV2PB31hXABCvJYxkzljhL8hjy5eQdKtxN7kSGWDaGhet7MglXu/Eil7Shp0EJpEHvYc36GG
+MIME-Version: 1.0
+
+--b1_Rcsbstn7PtY9KutOGqjMqW1RPjCZCypcdAENrqSNJc
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+
+CSC10008_CQ2324HK1_22CTT5 -> C=C3=A1c di=E1=BB=85n =C4=91=C3=A0n -> C=C3=
+=A1c th=C3=B4ng b=C3=A1o ->
+Th=C3=B4ng b=C3=A1o ngh=E1=BB=89 h=E1=BB=8Dc ng=C3=A0y 9/12/2023
+https://courses.fit.hcmus.edu.vn/mod/forum/discuss.php?d=3D15492#p42963
+Th=C3=B4ng b=C3=A1o ngh=E1=BB=89 h=E1=BB=8Dc ng=C3=A0y 9/12/2023
+B=E1=BB=9Fi L=C3=AA H=C3=A0 Minh - Th=E1=BB=A9 s=C3=A1u, 8 Th=C3=A1ng m=
+=C6=B0=E1=BB=9Di hai 2023, 5:15 PM
+---------------------------------------------------------------------
+Ch=C3=A0o c=E1=BA=A3 l=E1=BB=9Bp,=C2=A0
+
+Do th=E1=BA=A7y b=E1=BB=8B ho v=C3=A0 vi=C3=AAm h=E1=BB=8Dng, n=C3=AAn l=
+=E1=BB=9Bp ngh=E1=BB=89 h=E1=BB=8Dc
+ng=C3=A0y=C2=A09/12/2023. Tu=E1=BA=A7n ti=E1=BA=BFp theo, l=E1=BB=9Bp h=
+=E1=BB=8Dc b=C3=ACnh th=C6=B0=E1=BB=9Dng.=C2=A0
+
+C=C3=A1m =C6=A1n c=E1=BA=A3 l=E1=BB=9Bp.
+
+---------------------------------------------------------------------
+=C4=90=C3=A2y l=C3=A0 m=E1=BB=99t b=E1=BA=A3n copy c=E1=BB=A7a ph=C3=BAc =
+=C4=91=C3=A1p =C4=91=C6=B0=E1=BB=A3c g=E1=BB=ADi l=C3=AAn tr=C3=AAn
+CSC10008_CQ2324HK1_22CTT5 website.
+
+=C4=90=E1=BB=83 tr=E1=BA=A3 l=E1=BB=9Di th=C3=B4ng qua website, nh=E1=BA=
+=A5n chu=E1=BB=99t v=C3=A0o li=C3=AAn k=E1=BA=BFt n=C3=A0y:
+
+Change your forum digest preferences:
+https://courses.fit.hcmus.edu.vn/mod/forum/index.php?id=3D3790
+
+--b1_Rcsbstn7PtY9KutOGqjMqW1RPjCZCypcdAENrqSNJc
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8"><d=
+iv class=3D"navbar">=0A=
+    <a target=3D"_blank" href=3D"https://courses.fit.hcmus.edu.vn/course/vi=
+ew.php?id=3D3790">CSC10008_CQ2324HK1_22CTT5</a>=0A=
+    =C2=BB=0A=
+    <a target=3D"_blank" href=3D"https://courses.fit.hcmus.edu.vn/mod/forum=
+/index.php?id=3D3790">C=C3=A1c di=E1=BB=85n =C4=91=C3=A0n</a>=0A=
+    =C2=BB=0A=
+    <a target=3D"_blank" href=3D"https://courses.fit.hcmus.edu.vn/mod/forum=
+/view.php?f=3D5846">C=C3=A1c th=C3=B4ng b=C3=A1o</a>=0A=
+    =C2=BB=0A=
+    <a target=3D"_blank" href=3D"https://courses.fit.hcmus.edu.vn/mod/forum=
+/discuss.php?d=3D15492">Th=C3=B4ng b=C3=A1o ngh=E1=BB=89 h=E1=BB=8Dc ng=C3=
+=A0y 9/12/2023</a>=0A=
+</div>=0A=
+=0A=
+<table border=3D"0" cellpadding=3D"3" cellspacing=3D"0" class=3D"forumpost"=
+>=0A=
+    <tr class=3D"header">=0A=
+        <td width=3D"35" valign=3D"top" class=3D"picture left">=0A=
+            <a href=3D"https://courses.fit.hcmus.edu.vn/user/view.php?id=3D=
+59&amp;course=3D3790" class=3D"d-inline-block aabtn"><img src=3D"https://co=
+urses.fit.hcmus.edu.vn/theme/image.php/_s/academi/core/1698750738/u/f2" cla=
+ss=3D"userpicture defaultuserpic" width=3D"35" height=3D"35" alt=3D""></a>=
+=0A=
+        </td>=0A=
+        <td class=3D"topic starter">=0A=
+            <div class=3D"subject">=0A=
+                Th=C3=B4ng b=C3=A1o ngh=E1=BB=89 h=E1=BB=8Dc ng=C3=A0y 9/12=
+/2023=0A=
+            </div>=0A=
+            <div class=3D"author">=0A=
+                B=E1=BB=9Fi <a target=3D"_blank" href=3D"https://courses.fi=
+t.hcmus.edu.vn/user/view.php?id=3D59&amp;course=3D3790">L=C3=AA H=C3=A0 Min=
+h</a> - Th=E1=BB=A9 s=C3=A1u, 8 Th=C3=A1ng m=C6=B0=E1=BB=9Di hai 2023, 5:15=
+ PM=0A=
+            </div>=0A=
+        </td>=0A=
+    </tr>=0A=
+    <tr>=0A=
+        <td class=3D"left side" valign=3D"top">=0A=
+                &nbsp;=0A=
+        </td>=0A=
+        <td class=3D"content">=0A=
+            <p dir=3D"ltr" style=3D"text-align:left;">Ch=C3=A0o c=E1=BA=A3 =
+l=E1=BB=9Bp,&nbsp;</p><p dir=3D"ltr" style=3D"text-align:left;">Do th=E1=BA=
+=A7y b=E1=BB=8B ho v=C3=A0 vi=C3=AAm h=E1=BB=8Dng, n=C3=AAn l=E1=BB=9Bp ngh=
+=E1=BB=89 h=E1=BB=8Dc ng=C3=A0y&nbsp;9/12/2023. Tu=E1=BA=A7n ti=E1=BA=BFp t=
+heo, l=E1=BB=9Bp h=E1=BB=8Dc b=C3=ACnh th=C6=B0=E1=BB=9Dng.&nbsp;</p><p dir=
+=3D"ltr" style=3D"text-align:left;">C=C3=A1m =C6=A1n c=E1=BA=A3 l=E1=BB=9Bp=
+.</p>=0A=
+=0A=
+            <div class=3D"commands">=0A=
+            </div>=0A=
+=0A=
+            <div class=3D"link">=0A=
+                <a target=3D"_blank" href=3D"https://courses.fit.hcmus.edu.=
+vn/mod/forum/discuss.php?d=3D15492#p42963">=0A=
+                    Nh=C3=ACn b=C3=A0i vi=E1=BA=BFt n=C3=A0y trong ng=E1=BB=
+=AF c=E1=BA=A3nh=0A=
+                </a>=0A=
+            </div>=0A=
+        </td>=0A=
+    </tr>=0A=
+</table>=0A=
+=0A=
+<hr>=0A=
+<div class=3D"mdl-align unsubscribelink">=0A=
+    <a href=3D"https://courses.fit.hcmus.edu.vn/mod/forum/index.php?id=3D37=
+90">Change your forum digest preferences</a>=0A=
+</div>
+
+--b1_Rcsbstn7PtY9KutOGqjMqW1RPjCZCypcdAENrqSNJc--
