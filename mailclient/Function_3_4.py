@@ -20,9 +20,19 @@ def FilterEmail(Email_File):
     List_text = list()
     List_text.extend(info_email)
     List_text.extend(content_email)
+    check = False
     for Text in List_text:
         folder_name = FilterText(Text)
-        moveFile(Email_File, folder_name)
+        if folder_name != "Inbox": 
+            folder_path = find_folder(folder_name)
+            print(folder_name)
+            shutil.move(file_path, folder_path)
+            check = True
+            break
+    
+    if not check:
+        folder_path = find_folder("Inbox")
+        shutil.move(file_path, folder_path)
 
 
 

@@ -20,13 +20,15 @@ def get_email_info(msg):
     date_sent = "Date: " + msg.get('Date', '')
     return subject, sender, date_sent
 
-def get_email_text(msg):
-    text_content = ""
-    for part in msg.walk():
-        if part.get_content_type() == "text/plain":
-            text_content += part.get_payload()
-    return text_content
+# lấy nội dung email (nhưng lỗi không sài được)
+# def get_email_text(msg):
+#     text_content = ""
+#     for part in msg.walk():
+#         if part.get_content_type() == "text/plain":
+#             text_content += part.get_payload()
+#     return text_content
 
+#lấy danh sách fileddinhs kèm
 def get_attachments(msg):
     attachments = []
     for part in msg.walk():
@@ -36,27 +38,7 @@ def get_attachments(msg):
                 attachments.append(filename)
     return attachments
 
-def get_image_paths(msg):
-    image_paths = []
-    for part in msg.walk():
-        if part.get_content_type().startswith("image"):
-            image_paths.append(part.get_filename())
-    return image_paths
-
-def process_email_parts(msg):
-    for part in msg.walk():
-        content_type = part.get_content_type()
-        content_disposition = str(part.get("Content-Disposition"))
-        content_transfer_encoding = str(part.get("Content-Transfer-Encoding"))
-        
-        # Xử lý logic dựa trên loại nội dung, bố cục, hoặc phương thức chuyển đổi
-        # ...
-
-        # In ra thông tin về phần tử
-        print(f"Content Type: {content_type}")
-        print(f"Content Disposition: {content_disposition}")
-        print(f"Content Transfer Encoding: {content_transfer_encoding}")
-
+# tải file đính kèm
 def download_attachments(eml_file_path, save_folder):
     with open(eml_file_path, 'rb') as eml_file:
         msg = BytesParser(policy=policy.default).parse(eml_file)
@@ -76,7 +58,7 @@ def download_attachments(eml_file_path, save_folder):
                     with open(file_path, 'wb') as file:
                         file.write(part.get_payload(decode=True))
 
-                    print(f"Tải về thành công: {filename} - Lưu tại: {file_path}")
+                    print(f"Tải về thành công: {filename} - Lưu tại: {save_folder}")
 
 # lay ra link file 
 def find_file(file_name):
@@ -105,19 +87,27 @@ def find_folder(folder_name):
 def FilterText(Text):
     config_obj = configparser.ConfigParser()
     Config_path = find_file("Config.ini")
-    config_obj.read(Config_path)
+    config_obj.read(Config_path, encoding='utf-8')
 
-    Work_config = config_obj["WORK"]
-    Spam_config = config_obj["SPAM"]
+    Work_config = config_obj["Work"]
+    Spam_config = config_obj["Spam"]
+    Project_config = config_obj['Project']
+    Important_config = config_obj['Important']
 
-    List_KeyWords_Spam = Spam_config["KeyWords"]
-    List_KeyWords_Work = Work_config["From"] + Work_config["Subject"] + ", " + Work_config["Recruitment"] + ", " + Work_config["Job_Positions"] + ", " + Work_config["Job_Requirements"] + ", " + Work_config["Job_Benefits"]
-    List_KeyWords_Spam = List_KeyWords_Spam.split(",")
-    List_KeyWords_Work = List_KeyWords_Work.split(",")
+    List_KeyWords_Spam = Spam_config["KeyWords"].split(",")
+    List_KeyWords_Work = Work_config["KeyWords"]
+    List_KeyWords_Important = Important_config["KeyWords"].split(",")
+    List_KeyWords_Project = Project_config["KeyWords"].split(",")
 
     is_Spam = re.compile("|".join(List_KeyWords_Spam), flags=re.IGNORECASE)
     is_work = re.compile("|".join(List_KeyWords_Work), flags=re.IGNORECASE)
+    is_Important = re.compile("|".join(List_KeyWords_Important), flags=re.IGNORECASE)
+    is_Project = re.compile("|".join(List_KeyWords_Project), flags=re.IGNORECASE)
 
+    if re.search(is_Important, Text):
+        return "Important"
+    if re.search(is_Project, Text):
+        return "Project"
     if re.search(is_Spam, Text):
         return "Spam"
     if re.search(is_work, Text):
@@ -167,7 +157,7 @@ def moveFile(file_name, folder_name):
     try:
         if os.path.exists(file_path) and os.path.exists(folder_path):
             shutil.move(file_path, folder_path)
-            print(f"File đã được chuyển thành công đến {folder_path}")
+            print(f"File đã được chuyển thành công đến {folder_name}")
         else:
             print("File không tồn tại. ")
     except Exception as e:
