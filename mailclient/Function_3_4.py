@@ -25,11 +25,15 @@ def FilterEmail(Email_File):
         moveFile(Email_File, folder_name)
 
 
+
 # Thong tin cua email can doc: from, subject, content. 
 def Read_Email(Email, config_User):
     Email_path = find_file(Email)
     msg = read_eml_file(Email_path)
 
+    save_file_name(Email)
+
+    #in ra content email
     info = get_email_info(msg)
     print(f"{info[0]}, {info[1]}, {info[2]}")
     print(f"Content: {get_content_from_eml(Email_path)} \r\n")
@@ -56,7 +60,7 @@ def Read_Email(Email, config_User):
 def ViewEmail():
     config_obj = configparser.ConfigParser()
     Config_path = find_file("Config.ini")
-    config_obj.read(Config_path)
+    config_obj.read(Config_path,encoding='utf-8')
     
     config_User = config_obj["USER"]
 
@@ -75,10 +79,11 @@ def ViewEmail():
 
 
 
+
 def MoveEmail():
     config_obj = configparser.ConfigParser()
     Config_path = find_file("Config.ini")
-    config_obj.read(Config_path)
+    config_obj.read(Config_path, encoding='utf-8')
     
     config_User = config_obj["USER"]
 

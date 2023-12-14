@@ -141,9 +141,19 @@ def PrintList(folder):
     for key, value in List_EmailFile.items():
         text = value.split(".")
         if "eml" in text:
+            config_obj = configparser.ConfigParser()
+            Config_path = find_file("Config.ini")
+            config_obj.read(Config_path, encoding='utf-8')
+
+            config_User = config_obj["USER"]
+            config_readed = config_User['Readed']
+            #kiem tra trang thai email
+            status = "Chưa đọc"
+            if value in config_readed:
+                status = "Đã đọc"
             file_path = find_file(value)
             info = get_email_info(read_eml_file(file_path))
-            print(f"{key}. {info[0]}, {info[1]}, {info[2]}\r\n")
+            print(f"{key}. {status}, {info[0]}, {info[1]}, {info[2]}\r\n")
         else:
             print(f"{key}. {value} \r\n")     
 
@@ -189,3 +199,17 @@ def get_content_from_eml(eml_file_path):
                 content = base64.b64decode(content).decode('utf-8')
 
             return content
+        
+#luu email file name vao Readed
+def save_file_name(Email):
+    config_obj = configparser.ConfigParser()
+    config_path =find_file("Config.ini")
+    config_obj.read(config_path, encoding='utf-8')
+    config_User = config_obj['USER']
+    config_readed = config_User['Readed']
+    if not Email in config_readed:
+        current_value = config_obj.get('USER', 'Readed')
+        new_value = f"{current_value}, {Email}"
+        config_obj.set('USER', 'Readed', new_value)
+        with open(config_path, 'w', encoding='utf-8') as file:
+            config_obj.write(file)
