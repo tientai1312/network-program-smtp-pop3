@@ -1,4 +1,4 @@
-import socket
+﻿import socket
 import base64
 import os
 import email.utils
@@ -6,23 +6,29 @@ import mimetypes
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
+from email.mime.base import MIMEBase
+from EmailMethod import download_attachments
 from Function_3_4 import ViewEmail, MoveEmail
+from email.parser import BytesParser
+from email import policy
+from email import encoders
+from pop3 import *
 
 def menu():
     print("Vui lòng chọn menu: ")
     print("1. Để gửi email ")
     print("2. Để xem danh sách các email đã nhận ")
     print("3. Di Chuyển email.")
-    print("4. Thoát ")
+    print("4. Tải mail có đính kèm file")
+    print("5. Thoát ")
      
-def send_email(sender_email,  smtp_server, smtp_port, to_list , cc_list, bcc_list, subject, body, attachment_paths, MAXSIZE_MB):
+def send_email(sender_email,  smtp_server, smtp_port, to_list , cc_list, bcc_list, subject, body, attachment_paths):
     # Tạo đối tượng MIMEMultipart
     message = MIMEMultipart()
     
     # Thêm ngày giờ và Message ID
     message['Message-ID'] = email.utils.make_msgid()
     message['Date'] = email.utils.formatdate(localtime=True)
-    
     # Thêm danh sách TO vào email nếu có
     if to_list != ['']:
         to = ', '.join(to_list)
@@ -33,12 +39,6 @@ def send_email(sender_email,  smtp_server, smtp_port, to_list , cc_list, bcc_lis
         cc = ', '.join(cc_list)
         message['CC'] = cc
         
-    
-    # Thêm danh sách BCC vào email nếu có
-    if bcc_list != ['']:
-        bcc = ', '.join(bcc_list)
-        message['BCC'] = bcc
-
     # Thêm nội dung email
     message['From'] = sender_email
     message['Subject'] = subject
@@ -49,18 +49,13 @@ def send_email(sender_email,  smtp_server, smtp_port, to_list , cc_list, bcc_lis
     # Thêm các file đính kèm
     if attachment_paths:
         for attachment_path in attachment_paths:
-            attachment_size = os.path.getsize(attachment_path) / (1024 * 1024)  # Kích thước file đính kèm tính bằng MB
-            if attachment_size > MAXSIZE_MB:
-                print(f"{os.path.basename(attachment_path)} vượt quá giới hạn dung lượng.")
-                continue
-
-            with open(attachment_path, 'rb') as attachment_file:
-                mime_type, _ = mimetypes.guess_type(attachment_path)
-                text_mime_type = mime_type.split('/')
-                subtype = text_mime_type[1]
-                attachment = MIMEApplication(attachment_file.read(), f'{subtype}; name ="{os.path.basename(attachment_path)}"')
-                attachment.add_header('Content-Disposition', f'attachment; filename="{os.path.basename(attachment_path)}"')
-                message.attach(attachment)
+                with open(attachment_path, 'rb') as attachment_file:
+                    mime_type, _ = mimetypes.guess_type(attachment_path)
+                    text_mime_type = mime_type.split('/')
+                    subtype = text_mime_type[1]
+                    attachment = MIMEApplication(attachment_file.read(), f'{subtype}; name ="{os.path.basename(attachment_path)}"')
+                    attachment.add_header('Content-Disposition', f'attachment; filename="{os.path.basename(attachment_path)}"')
+                    message.attach(attachment)
 
     # Xây dựng nội dung MIME
     mime_content = message.as_string()
@@ -134,12 +129,13 @@ def send_email(sender_email,  smtp_server, smtp_port, to_list , cc_list, bcc_lis
         print(response.decode())
 
     print(f'Gửi email thành công!\r\n')
-
+    
 def main():
-    while True:
+   while True:
         menu()
         choice = int(input("Nhập lựa chọn: "))
-        if choice == 1:
+        # Gửi mail với attachment
+        if choice == 1: 
             print("Đây là thông tin soạn email: (nếu không điền vui lòng nhấn enter để bỏ qua)")
             
             # Thông tin tài khoản email
@@ -171,19 +167,37 @@ def main():
                 temp = int(input("Số lượng file muốn gửi: "))
                 for i in range(temp):
                     path = input("Cho biết đường dẫn file thứ {}: ".format(i + 1))
+                    if os.path.exists(path) == False:
+                        print(f"File không tồn tại")
+                        continue
+                    else:
+                        attachment_size = os.path.getsize(path) / (1024 * 1024)  # Kích thước file đính kèm tính bằng MB
+                        if attachment_size > 3:
+                            print(f"{os.path.basename(path)} vượt quá giới hạn dung lượng.")
+                            continue
                     attachment_paths.append(path)
-                    
-            MAXSIZE_MB = 3
-            
-            send_email(sender_email, smtp_server, smtp_port, to_list , cc_list, bcc_list, subject, body, attachment_paths, MAXSIZE_MB)
-            print("Gửi email thành công!\r\n")
+            send_email(sender_email, smtp_server, smtp_port, to_list , cc_list, bcc_list, subject, body, attachment_paths)
         elif choice == 2:
             ViewEmail()
-        elif choice == 3:   
+        elif choice == 3:
             MoveEmail()
-        else:
-            print("Hẹn gặp lại!\r\n")
-            exit()
+        # tải mail 
+        elif choice == 4: 
+            config_obj = configparser.ConfigParser()
+            config_file = "D:/SMTPPOP3/mailclient/mailclient/Config.ini"
+            config_obj.read(config_file, encoding = "utf-8")
+
+            user_config = config_obj['USER']
+            user_name = user_config['Email'].strip('"\'')
+            user_pass = user_config['Password'].strip('"\'')
+            pop3_server = user_config['Mailserver'].strip('"\'')
+            pop3_port = int(user_config['POP3'].strip('"\''))
+            save_msg_path = f"D:/SMTPPOP3/mailclient/mailclient/msgdownload"
+            os.makedirs(save_msg_path, exist_ok=True)
+            download_msg(user_name, user_pass, pop3_server, pop3_port, save_msg_path)
+        elif choice == 5:   
+              print("Hẹn gặp lại!\r\n")
+              exit()
             
 
 if __name__ == '__main__':
